@@ -28,11 +28,21 @@
 			</div>
 			<div class="hal" id="main">
 				<div>
-
+					<marquee style="width:81%; display:inline-block;">
+						請民眾踴躍投稿電子報，讓電子報成為大家相互交流、分享的園地!詳見最新文章
+					</marquee>
 					<span style="width:18%; display:inline-block;">
 						<a href="?do=login">會員登入</a>
 					</span>
 					<div class="">
+						<?php
+						$do = $_GET['do'] ?? 'home';
+						$file = "./front/" . $do . ".php";
+						if (file_exists($file))
+							include $file;
+						else
+							include "./front/home.php";
+						?>
 					</div>
 				</div>
 			</div>
