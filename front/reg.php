@@ -64,7 +64,10 @@
             alert('帳號重覆')
           } else {
             // 沒有重覆
-            alert('註冊完成，歡迎加入')
+            $.post("./api/reg.php", user, () => {
+              alert('註冊完成，歡迎加入')
+              reset();
+            })
           }
         })
       } else {
