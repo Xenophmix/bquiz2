@@ -12,7 +12,7 @@
     <tr>
       <td>
         <button onclick="login()">登入</button>
-        <button onclick="reset()">清除</button>
+        <button id="Try" onclick="reset()">清除</button>
       </td>
       <td>
         <a href="?do=forgot">忘記密碼</a>
@@ -23,6 +23,14 @@
 </fieldset>
 
 <script>
+  $('#pw').keypress(function(e) {
+    var key = e.which;
+    if (key == 13) // the enter key code
+    {
+      login()
+    }
+  });
+
   function reset() {
     $('#acc,#pw').val("");
   }
@@ -47,9 +55,11 @@
             // 密碼錯誤
             alert("密碼錯誤")
         })
-      } else
+      } else {
         // 無此帳號
         alert("查無帳號")
+        reset()
+      }
     })
   }
 </script>
