@@ -35,13 +35,20 @@
 					<span style="width:18%; display:inline-block;">
 						<?php
 						if (isset($_SESSION['login'])) {
+							if ($_SESSION['login'] == 'admin') {
 						?>
-							歡迎，<?= $_SESSION['login']; ?>
-							<button><a href="back.php">管理</a></button>|
-							<button>登出</button>
-						<?php
+								歡迎，<?= $_SESSION['login']; ?>
+								<button><a href='back.php'>管理</a></button>|
+								<button><a href="./api/logout.php">登出</a></button>
+							<?php
+							} else {
+							?>
+								歡迎，<?= $_SESSION['login']; ?>
+								<button><a href="./api/logout.php">登出</a></button>
+							<?php
+							}
 						} else {
-						?>
+							?>
 							<a href="?do=login">會員登入</a>
 						<?php
 						}
