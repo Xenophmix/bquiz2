@@ -68,7 +68,7 @@ class DB
       $sql = "insert into $this->table (`" . join("`,`", $cols) . "`) 
                                  values('" . join("','", $array) . "')";
     }
-    echo $sql;
+    // echo $sql;
     $this->pdo->exec($sql);
   }
 
@@ -143,8 +143,8 @@ class DB
         $sql = $sql . $con;
       }
     }
-    print_r($arg);
-    echo $sql;
+    // print_r($arg);
+    // echo $sql;
     return $this->pdo->query($sql)->fetchColumn();
   }
 }
@@ -166,4 +166,21 @@ function q($sql)
 {
   $pdo = new PDO('mysql:host=localhost;charset=utf8;dbname=db10_2', 'root', '');
   return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+$Total = new DB('total');
+
+
+if (!isset($_SESSION['total'])) {
+  $today = $Total->find(['date' => date("Y-m-d")]);
+  if (empty($today)) {
+    // 沒有今天的資料->新增
+    $today = ['date' => date("Y-m-d"), 'total' => 1];
+  } else {
+    // 有今天的資料->更新
+    $today['total']++;
+  }
+  $Total->save($today);
+  $_SESSION['total'] = 1;
 }
