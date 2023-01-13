@@ -171,6 +171,7 @@ function q($sql)
 
 $Total = new DB('total');
 $User = new DB('user');
+$News = new DB('news');
 
 
 if (!isset($_SESSION['total'])) {
