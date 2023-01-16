@@ -9,7 +9,7 @@ $options = $Que->all(['parent' => $_GET['id']]);
 
 <fieldset>
   <legend>目前位置:首頁 > 問卷調查 > <?= $subject['text']; ?></legend>
-  <form action="./api/vote.php">
+  <form action="./api/vote.php" method="POST">
 
     <h3><?= $subject['text']; ?></h3>
 
