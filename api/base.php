@@ -10,6 +10,12 @@ class DB
   protected $table;
   protected $pdo;
   protected $dsn = "mysql:host=localhost;charset=utf8;dbname=db10_2";
+  public $type = [
+    1=>'健康新知',
+    2=>'菸害防治',
+    3=>'癌症防治',
+    4=>'慢性病防治'
+  ];
 
 
   public function __construct($table)
