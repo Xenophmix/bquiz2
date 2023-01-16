@@ -1,3 +1,23 @@
+<style>
+  .full {
+    display: none;
+    position: absolute;
+    background-color: rgb(100, 100, 100);
+    z-index: 99;
+    padding: 1rem;
+    box-shadow: 0 0 10px #999;
+    left: -10px;
+    top: 5px;
+    width: 95%;
+    height: 500px;
+    overflow: auto;
+  }
+
+  .news-title {
+    cursor: pointer;
+    background-color: #eee;
+  }
+</style>
 <fieldset>
   <legend>目前位置：首頁 > 人氣文章區</legend>
 
@@ -15,19 +35,52 @@
     $start = ($now - 1) * $div;
 
     $rows = $News->all(['sh' => 1], " order by `good` desc limit $start,$div");
+
     foreach ($rows as $row) {
 
     ?>
       <tr>
-        <td><?= $row['title']; ?></td>
-        <td><?= mb_substr($row['text'], 0, 20); ?>...</td>
-        <td></td>
+        <td class='news-title'><?= $row['title']; ?></td>
+        <td style='position:relative'>
+          <div class="short"><?= mb_substr($row['text'], 0, 20); ?>...</div>
+          <div class="full">
+            <?php
+            echo "<div style='color:skyblue'>" . $row['type'] . "</div>";
+            echo "<div style='color:white'>" . nl2br($row['text']) . "</div>";
+            ?>
+          </div>
+        </td>
+        <td>
+          <span class="num"><?= $Log->count(['news' => $row['id']]); ?></span>
+          個人說
+          <img src="./icons/02B03.jpg" style="width:20px;height:20px">
+          <?php
+          /**
+           * 1.點擊後要紀錄使用者對那一篇文章點了讚或收回讚
+           * 2.點擊後要根據讚或收回讚去改變文章的good欄位
+           */
+
+          if (isset($_SESSION['login'])) {
+            if ($Log->count(['news' => $row['id'], 'user' => $_SESSION['login']]) > 0) {
+
+              echo "<a href='#' class='goods' data-user='{$_SESSION['login']}' data-news='{$row['id']}'>";
+              echo "收回讚";
+              echo "</a>";
+            } else {
+              echo "<a href='#' class='goods' data-user='{$_SESSION['login']}' data-news='{$row['id']}'>";
+              echo "讚";
+              echo "</a>";
+            }
+          }
+          ?>
+
+        </td>
       </tr>
     <?php
     }
     ?>
   </table>
-  <div class="ct">
+  <div>
     <?php
     if (($now - 1) > 0) {
       $prev = $now - 1;
@@ -48,3 +101,25 @@
   </div>
 
 </fieldset>
+<script>
+  $(".news-title").hover(
+    function() {
+
+      $(this).next().children('.full').show()
+
+    },
+
+    function() {
+      $(this).next().children('.full').hide()
+    }
+  )
+  $(".full").hover(
+    function() {
+      $(this).show();
+    },
+    function() {
+      $(this).hide();
+    }
+
+  )
+</script>
